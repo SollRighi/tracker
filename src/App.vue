@@ -13,6 +13,8 @@
           :key="index"
           :tarefa="tarefa"
         />
+        <!-- v-if é uma condição pra verificar se o metodo listaEstaVazia retorna true -->
+        <Box v-if="listaEstaVazia"> Você não esta muito produtivo hoje :/ </Box>
       </div>
     </div>
   </main>
@@ -21,6 +23,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
+import Box from "./components/Box.vue";
 import Formulario from "./components/Formulario.vue";
 import Tarefa from "./components/Tarefa.vue";
 import type ITarefa from "./interfaces/ITarefa";
@@ -31,11 +34,17 @@ export default defineComponent({
     BarraLateral,
     Formulario,
     Tarefa,
+    Box,
   },
   data() {
     return {
       tarefas: [] as ITarefa[],
     };
+  },
+  computed: {
+    listaEstaVazia(): boolean {
+      return this.tarefas.length === 0;
+    },
   },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
