@@ -17,15 +17,15 @@
           class="is-flex is-align-items-center is-justify-content-space-between"
         >
           <section>
-            <strong> 00:00:00 </strong>
+            <strong> {{ tempoDecorrido }} </strong>
           </section>
-          <button class="button">
+          <button class="button" @click="iniciar">
             <span class="icon">
               <i class="fas fa-play"></i>
             </span>
             <span>play</span>
           </button>
-          <button class="button">
+          <button class="button" @click="finalizar">
             <span class="icon">
               <i class="fas fa-stop"></i>
             </span>
@@ -38,8 +38,38 @@
 </template>
 
 <script lang="ts">
+interface Types {
+  iniciar: () => void;
+  finalizar: () => void;
+}
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Formulario",
+  //definindo um estado inicial pro componente
+  data() {
+    return {
+      //informações pertinentes para o componente
+      tempoEmSegundos: 0,
+    };
+  },
+  computed: {
+    tempoDecorrido() {
+      return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11, 8);
+    },
+  },
+  //funções que ele é capaz de executar
+  methods: {
+    iniciar() {
+      //a cada 1000 segundos ele vai executar o setInterval
+      setInterval(() => {
+        this.tempoEmSegundos += 1;
+      }, 1000);
+      console.log("iniciando");
+    },
+    finalizar() {
+      console.log("finalizando");
+    },
+  },
 });
 </script>
