@@ -16,9 +16,7 @@
         <div
           class="is-flex is-align-items-center is-justify-content-space-between"
         >
-          <section>
-            <strong> {{ tempoDecorrido }} </strong>
-          </section>
+          <Cronometro :tempoEmSegundos="tempoEmSegundos" />
           <button class="button" @click="iniciar">
             <span class="icon">
               <i class="fas fa-play"></i>
@@ -38,36 +36,32 @@
 </template>
 
 <script lang="ts">
-interface Types {
-  iniciar: () => void;
-  finalizar: () => void;
-}
-
 import { defineComponent } from "vue";
+import Cronometro from "./Cronometro.vue";
 export default defineComponent({
   name: "Formulario",
+  components: {
+    Cronometro,
+  },
   //definindo um estado inicial pro componente
   data() {
     return {
-      //informações pertinentes para o componente
+      //variaveis
       tempoEmSegundos: 0,
       cronometro: 0,
     };
   },
-  computed: {
-    tempoDecorrido() {
-      return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11, 8);
-    },
-  },
   //funções que ele é capaz de executar
   methods: {
     iniciar() {
+      //salva o setInterval numa variavel pra poder limpar depois e parar de cronometrar
       //a cada 1000 segundos ele vai executar o setInterval
       this.cronometro = setInterval(() => {
         this.tempoEmSegundos += 1;
       }, 1000);
     },
     finalizar() {
+      //parando o cronometro
       clearInterval(this.cronometro);
     },
   },
