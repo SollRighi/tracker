@@ -1,9 +1,13 @@
 <template>
-  <main class="columns is-gapless is-multiline">
+  <!-- a classe vai existir ou nao, conforme esta o nosso estado  -->
+  <main
+    class="columns is-gapless is-multiline"
+    :class="{ 'modo-escuro': modoEscuroAtivo }"
+  >
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @aoTemaAlterado="trocarTema" />
     </div>
-    <div class="column is-three-quarter">
+    <div class="column is-three-quarter conteudo">
       <Formulario @aoSalvarTarefa="salvarTarefa" />
       <div class="lista">
         <!-- pra cada tarefa no nosso array de tarefas queremos fazer alguma coisa -->
@@ -39,6 +43,7 @@ export default defineComponent({
   data() {
     return {
       tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false,
     };
   },
   computed: {
@@ -50,6 +55,9 @@ export default defineComponent({
     salvarTarefa(tarefa: ITarefa) {
       this.tarefas.push(tarefa);
     },
+    trocarTema(modoEscuroAtivo: boolean) {
+      this.modoEscuroAtivo = modoEscuroAtivo;
+    },
   },
 });
 </script>
@@ -57,5 +65,17 @@ export default defineComponent({
 <style>
 .lista {
   padding: 1.25rem;
+}
+/* criando um modo escuro pra pagina */
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000;
+}
+main.modo-escuro {
+  --bg-primario: #000;
+  --texto-primario: #ddd;
+}
+.conteudo {
+  background-color: var(--bg-primario);
 }
 </style>
