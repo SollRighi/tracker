@@ -6,30 +6,17 @@
         role="form"
         aria-label="Formulario para criação de uma nova tarefa"
       >
+        <!-- v-model serve pra lincar o estado do meu componente com a descricao da input -->
         <input
           type="text"
           class="input"
           placeholder="Qual tarefa você deseja iniciar?"
+          v-model="descricao"
         />
       </div>
       <div class="column">
-        <div
-          class="is-flex is-align-items-center is-justify-content-space-between"
-        >
-          <Cronometro :tempoEmSegundos="tempoEmSegundos" />
-          <button class="button" @click="iniciar">
-            <span class="icon">
-              <i class="fas fa-play"></i>
-            </span>
-            <span>play</span>
-          </button>
-          <button class="button" @click="finalizar">
-            <span class="icon">
-              <i class="fas fa-stop"></i>
-            </span>
-            <span>stop</span>
-          </button>
-        </div>
+        <!-- @significa ouvir um evento -->
+        <Temporizador @aoTemporizadorFinalizado="finalizarTarefa" />
       </div>
     </div>
   </div>
@@ -37,32 +24,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Cronometro from "./Cronometro.vue";
+import Temporizador from "./Temporizador.vue";
 export default defineComponent({
   name: "Formulario",
   components: {
-    Cronometro,
+    Temporizador,
   },
-  //definindo um estado inicial pro componente
+  //metodo que retorna o estado pra gente (ele retorna um objeto)
   data() {
     return {
-      //variaveis
-      tempoEmSegundos: 0,
-      cronometro: 0,
+      descricao: "",
     };
   },
-  //funções que ele é capaz de executar
   methods: {
-    iniciar() {
-      //salva o setInterval numa variavel pra poder limpar depois e parar de cronometrar
-      //a cada 1000 segundos ele vai executar o setInterval
-      this.cronometro = setInterval(() => {
-        this.tempoEmSegundos += 1;
-      }, 1000);
-    },
-    finalizar() {
-      //parando o cronometro
-      clearInterval(this.cronometro);
+    finalizarTarefa(tempoDecorrido: number): void {
+      console.log("tempo da tarefa", tempoDecorrido);
+      console.log("descrição da tarefa", this.descricao);
+      this.descricao = "";
     },
   },
 });
