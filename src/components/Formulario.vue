@@ -51,6 +51,7 @@ export default defineComponent({
     return {
       //informações pertinentes para o componente
       tempoEmSegundos: 0,
+      cronometro: 0,
     };
   },
   computed: {
@@ -62,13 +63,12 @@ export default defineComponent({
   methods: {
     iniciar() {
       //a cada 1000 segundos ele vai executar o setInterval
-      setInterval(() => {
+      this.cronometro = setInterval(() => {
         this.tempoEmSegundos += 1;
       }, 1000);
-      console.log("iniciando");
     },
     finalizar() {
-      console.log("finalizando");
+      clearInterval(this.cronometro);
     },
   },
 });
