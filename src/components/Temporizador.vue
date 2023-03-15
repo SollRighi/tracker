@@ -48,7 +48,7 @@ export default defineComponent({
     },
     finalizar() {
       //para desabilitar o botao
-      this.cronometroRodando = true;
+      this.cronometroRodando = false;
       //parando o cronometro
       clearInterval(this.cronometro);
       //metodo que recebe 2 params: nome do evento que ta emitindo, payload(carga de dados que vai junto)
